@@ -1,0 +1,72 @@
+@startuml
+title ArchiMate Diagram for online clothing store
+' Определение стилей для различных типов элементов ArchiMate
+<style>
+archimateDiagram {
+  .business-process {
+    BackgroundColor lightgreen       ' Цвет фона для бизнес-процессов
+  }
+  .application-service {
+    BackgroundColor lightblue        ' Цвет фона для сервисов приложений
+  }
+  .technology-device {
+    BackgroundColor lightcoral       ' Цвет фона для технологических устройств
+  }
+  .external-system {
+    BackgroundColor lightgray        ' Цвет фона для внешних систем
+  }
+  .database {
+    BackgroundColor plum             ' Цвет фона для баз данных
+  }
+}
+</style>
+
+' Определение бизнес-процессов
+archimate #Business "User Registration" as UserRegistration <<business-process>>
+archimate #Business "User Login" as UserLogin <<business-process>>
+archimate #Business "Open Story" as OpenStory <<business-process>>
+archimate #Business "Request Prosthesis" as RequestProsthesis <<business-process>>
+archimate #Business "Make Appointment" as MakeAppointment <<business-process>>
+archimate #Business "Register Appointment" as RegisterAppointment <<business-process>>
+archimate #Business "Change Story Status" as ChangeStoryStatus <<business-process>>
+archimate #Business "Upload Project" as UploadProject <<business-process>>
+
+' Определение сервисов приложений
+archimate #Application "Authentication Service" as AuthenticationService <<application-service>>
+archimate #Application "User Service" as UserService <<application-service>>
+archimate #Application "Story Service" as StoryService <<application-service>>
+archimate #Application "Report Service" as ReportService <<application-service>>
+archimate #Application "Appointment Service" as AppointmentService <<application-service>>
+
+' Определение технологических устройств и баз данных
+archimate #Technology "Web Server" as WebServer <<technology-device>>
+archimate #Technology "Load Balancer" as LoadBalancer <<technology-device>>
+archimate #Technology "Database Server" as DBServer <<database>>
+
+' Связи между бизнес-процессами и сервисами приложений
+UserRegistration --> AuthenticationService : "Initiates"
+UserLogin --> AuthenticationService : "Initiates"
+OpenStory --> StoryService : "Uses"
+RequestProsthesis --> UserService : "Uses"
+MakeAppointment --> AppointmentService : "Uses"
+RegisterAppointment --> AppointmentService : "Uses"
+ChangeStoryStatus --> StoryService : "Uses"
+UploadProject --> ReportService : "Uses"
+
+' Связи между сервисами приложений и веб-серверами
+AuthenticationService --> WebServer : "Deployed on"
+UserService --> WebServer : "Deployed on"
+StoryService --> WebServer : "Deployed on"
+ReportService --> WebServer : "Deployed on"
+AppointmentService --> WebServer : "Deployed on"
+
+' Связи между веб-серверами и балансировщиком нагрузки
+WebServer --> LoadBalancer : "Connected To"
+
+' Связи между приложениями серверами и базами данных
+WebServer --> DBServer : "Uses"
+
+' Связи между базами данных
+DBServer --> DBServer : "Replicates data"
+
+@enduml

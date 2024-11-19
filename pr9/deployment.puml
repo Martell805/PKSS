@@ -1,0 +1,42 @@
+@startuml
+package "Controller" {
+  [UserController]
+  [StaffController]
+  [AuthenticationController]
+}
+
+package "Service" {
+  [UserService]
+  [StoryService]
+  [RepostService]
+  [AuthenticationService]
+}
+
+package "Repository" {
+  [UserRepository]
+  [StoryRepository]
+  [ReportRepository]
+}
+
+package "Model" {
+  [UserModel]
+  [StoryModel]
+  [ReportModel]
+}
+
+[UserController] -> [UserService]
+[UserController] -> [StoryService]
+[StaffController] -> [UserService]
+[StaffController] -> [StoryService]
+[AuthenticationController] -> [UserService]
+
+[AuthenticationService] -> [UserService]
+[UserService] -> [UserRepository]
+[StoryService] -> [StoryRepository]
+[RepostService] -> [ReportRepository]
+
+[UserRepository] -> [UserModel]
+[StoryRepository] -> [StoryModel]
+[ReportRepository] -> [ReportModel]
+
+@enduml

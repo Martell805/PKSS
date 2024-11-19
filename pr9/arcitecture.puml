@@ -1,0 +1,28 @@
+@startuml
+package TransplantologyCenterSystem{
+    package Frontend {
+        component "User Frontend Service" as UserFrontendService
+        component "Staff Frontend Service" as StaffFrontendService
+    }
+    package Backend {
+        component "Backend Service" as BackendService
+        component "Authentication Service" as AuthenticationService
+    }
+    package Maintenance {
+        component "Logging Service" as LoggingService
+        component "Actuation Service" as ActuationService
+        component "DB Administration Service" as DBAdministrationService
+    }
+    package Database {
+        database "PostgreSQL" as PostgreSQL
+        database "MongoDB" as MongoDB
+    }
+}
+
+Frontend -> Backend : HTTP requests
+Frontend -> Maintenance : Logging and actuation
+Backend -> Database : Requests
+Backend -> Maintenance : Logging and actuation
+Database -> DBAdministrationService : Administration
+
+@enduml
