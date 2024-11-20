@@ -4,7 +4,7 @@ nwdiag {
     address = "0.0.0.0/0";
     web_client [address = "clients"];
   }
-  network dmz {
+  network proxy {
     address = "192.168.1.0/24";
     web_server [address = "192.168.1.10"];
   }
