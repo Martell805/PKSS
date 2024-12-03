@@ -1,0 +1,36 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+LAYOUT_LEFT_RIGHT()
+title C4 Diagram - Container Level for English School
+
+' Определение людей
+Person(patient, "Пациент", "Потенциальный пациент центра")
+Person(doctor, "Врач", "Врач, принимающий пациентов")
+Person(engineer, "Инженер", "Инженер, разрабатывающий протезы")
+
+' Определение системы
+System_Boundary(system_boundary, "Система обучения английскому языку") {
+    Container(frontend, "Frontend", "Angular.js", "Веб-интерфейс для пользователей")
+    Container(proxy, "Proxy Service", "NGINX", "Маршрутизирует запросы от фронтенда к backend")
+    Container(backend, "Backend", "Java/Spring Boot", "Обрабатывает бизнес-логику и API запросы")
+    Container(databaseP, "База данных", "PostgreSQL", "Хранит записи о пользователях, приёмах, отчётах")
+    Container(databaseM, "База данных", "MongoDB", "Хранит отчёты")
+    Container(notificationService, "Сервис уведомлений", "Node.js", "Отправляет уведомления")
+}
+
+' Внешние системы
+System_Ext(paymentGateway, "Платёжная система", "Обрабатывает оплату")
+
+' Взаимодействия
+Rel(patient, frontend, "Изучает предоставляемые услуги, записывается на приёмы, оплачивает услуги")
+Rel(doctor, frontend, "Оставляет отчёты о приёмах")
+Rel(engineer, frontend, "Оставляет отчёты о разработанных протезах")
+Rel(frontend, proxy, "Отправляет запросы через")
+Rel(proxy, backend, "Перенаправляет запросы на")
+Rel(backend, frontend, "Ответы через прокси")
+Rel(backend, databaseP, "Читает и записывает данные")
+Rel(backend, databaseM, "Читает и записывает данные")
+Rel(backend, paymentGateway, "Обрабатывает оплату через")
+Rel(backend, notificationService, "Отправляет данные для уведомлений")
+Rel(notificationService, databaseP, "Читает данные о приёмах")
+@enduml

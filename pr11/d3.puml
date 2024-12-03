@@ -1,0 +1,43 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+LAYOUT_LEFT_RIGHT()
+title C4 Diagram - Component Level for Backend
+
+' Устанавливаем цвет контейнеров
+skinparam containerBackgroundColor #F5F5F5
+
+Container(proxy, "Proxy Service", "NGINX", "Маршрутизирует запросы от frontend к backend")
+
+Container(backend, "Backend", "Java/Spring Boot", "Обрабатывает бизнес-логику и API запросы") {
+    Component(UserController, "User Controller", "Spring MVC Controller", "Обрабатывает запросы пользователей")
+    Component(StaffController, "Staff Controller", "Spring MVC Controller", "Обрабатывает запросы сотрудников")
+    Component(AuthenticationController, "Authentication Controller", "Spring MVC Controller", "Обрабатывает запросы на аутентификацию")
+    Component(UserService, "User Service", "Service", "Управляет пользователями")
+    Component(StoryService, "Story Service", "Service", "Управляет историями пациентов")
+    Component(ReportService, "Report Service", "Service", "Обрабатывает отчётами")
+    Component(AuthenticationService, "Authentication Service", "Service", "Управляет аутентификацией")
+    Component(UserRepository, "User Repository", "JPA Repository", "Доступ к данным пользователей")
+    Component(StoryRepository, "Story Repository", "JPA Repository", "Доступ к данным историй пациентов")
+    Component(ReportRepository, "Report Repository", "JPA Repository", "Доступ к данным отчётов")
+}
+
+ContainerDb(databaseP, "База данных", "PostgreSQL", "Хранит записи о пользователях, приёмах, отчётах")
+ContainerDb(databaseM, "База данных", "MongoDB", "Хранит отчёты")
+
+System_Ext(paymentGateway, "Платёжная система", "Обрабатывает оплату курсов")
+
+' Взаимодействия
+Rel(proxy, backend, "Перенаправляет запросы к")
+Rel(UserController, UserService, "Управляет пациентами")
+Rel(UserController, StoryService, "Управляет историями")
+Rel(StaffController, UserService, "Управляет сотрудниками")
+Rel(StaffController, StoryService, "Управляет историями")
+Rel(AuthenticationController, AuthenticationService, "Управляет аутентификацией")
+Rel(AuthenticationService, UserService, "Получает данные о пользователях")
+Rel(UserService, UserRepository, "Читает и записывает данные пользователей")
+Rel(StoryService, StoryRepository, "Читает и записывает истории")
+Rel(ReportService, ReportRepository, "Читает и записывает отчёты")
+Rel(backend, databaseP, "Читает и записывает данные через репозитории")
+Rel(backend, databaseM, "Читает и записывает данные через репозитории")
+Rel(backend, paymentGateway, "Обрабатывает платежи через")
+@enduml

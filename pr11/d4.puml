@@ -1,0 +1,45 @@
+@startuml
+title Class Diagram for User Service with Detailed States
+
+class UserService {
+    +createUser(userData)
+    +updateUser(userData)
+    +getUser(userId)
+    +deleteUser(userId)
+    +listAllUsers()
+    +checkCredentials(name, password)
+}
+
+class UserRepository {
+    +save(userData)
+    +findById(userId)
+    +delete(userId)
+    +findAll()
+    +checkCredentials(name, password)
+}
+
+class User {
+    -userId: UUID
+    -name: String
+    -fullName: String
+    -password: String
+    -email: String
+    -phone: String
+    -role: Role
+}
+
+class Role {
+    -id: UUID
+    -title: String
+    -description: String
+    -isStaff: boolean
+}
+
+' Зависимости между классами
+UserService --> UserRepository
+UserService --> User
+UserService --> Role
+UserRepository --> User
+
+User --> Role : "has"
+@enduml

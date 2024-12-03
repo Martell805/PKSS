@@ -1,0 +1,24 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+LAYOUT_LEFT_RIGHT()
+title C4 Diagram - Context Level for Transplantology Center
+
+' Определение элементов
+Person(patient, "Пациент", "Потенциальный пациент центра")
+Person(doctor, "Врач", "Врач, принимающий пациентов")
+Person(engineer, "Инженер", "Инженер, разрабатывающий протезы")
+
+System(site, "Сайт центра", "Веб-приложение центра")
+System_Ext(paymentSystem, "Платёжная система", "Обрабатывает оплату")
+System_Ext(notificationService, "Сервис уведомлений", "Отправляет уведомления")
+System_Ext(reportingService, "Сервис аналитики", "Собирает статистику и создаёт отчёты о работе приложения")
+
+' Взаимодействие между элементами
+Rel(patient, site, "Изучает предоставляемые услуги, записывается на приёмы, оплачивает услуги")
+Rel(doctor, site, "Оставляет отчёты о приёмах")
+Rel(engineer, site, "Оставляет отчёты о разработанных протезах")
+
+Rel(site, paymentSystem, "Обрабатывает оплату за курсы через")
+Rel(site, notificationService, "Отправляет уведомления о заданиях и уроках через")
+Rel(site, reportingService, "Передаёт данные об успеваемости студентов и активности преподавателей в")
+@enduml
