@@ -19,10 +19,11 @@ package TransplantologyCenterSystem{
     }
 }
 
-Frontend -> Backend : HTTP requests
-Frontend -> Maintenance : Logging and actuation
-Backend -> Database : Requests
-Backend -> Maintenance : Logging and actuation
-Database -> DBAdministrationService : Administration
+
+Frontend -down-> Backend : HTTP requests
+Frontend -down-> Maintenance : Logging and actuation
+Backend -down-> Database : Requests
+Backend -left-> Maintenance : Logging and actuation
+Database -down-> DBAdministrationService : Administration
 
 @enduml
